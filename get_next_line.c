@@ -69,14 +69,100 @@ char	*get_next_line(int fd)
 		if (leftover[0] != '\0') 
 		{
 			free(placeholder1);
+			/*
 			if (leftover[m] == '\n')
 			{
 				placeholder1 = ft_calloc(2, sizeof(char));
 				placeholder1[count] = '\n';
-				/*
-				the problem with incrementing leftover's pointer is that it creates a memory leak because
-				the characters moved past are "lost"
-				*/
+				
+				//the problem with incrementing leftover's pointer is that it creates a memory leak because
+				//the characters moved past are "lost"
+				
+				//leftover++;
+				//the lines below are a potential solution to my leftover issue
+				free(placeholder2);
+				placeholder2 = ft_calloc(strlen(leftover), sizeof(char));
+				while(leftover[++i])
+					placeholder2[j++] = leftover[i];
+				i = 0;
+				j = 0;
+				free(leftover);
+				leftover = ft_calloc(strlen(placeholder2) + 1, sizeof(char));
+				while(placeholder2[j])
+				{
+					leftover[j] = placeholder2[j];
+					j++;
+				}
+				free(placeholder2);
+				free(buffer);
+				if (leftover[0] == '\0')
+				{
+					free(leftover);
+					leftover = NULL;
+				}
+				return (placeholder1);
+			}
+			*/
+			//else
+			//{
+			while (leftover[m] != '\n' && leftover[m])
+				m++;
+			placeholder1 = ft_calloc(m + 2, sizeof(char));
+			while (count < m)
+			{
+				placeholder1[count] = leftover[count];
+				count++;
+			}
+			if (leftover[m] == '\n')
+			{
+				placeholder1[count] = '\n';
+				//the lines from here on are a potential solution to the leftover memory leak
+				free(placeholder2);
+				//from here on till the end of the if statement, my indexing might be off so trial and error
+				placeholder2 = ft_calloc(strlen(leftover) - m + 1, sizeof(char));
+				while(leftover[++m])
+					placeholder2[i++] = leftover[m];
+				i = 0;
+				free(leftover);
+				leftover = ft_calloc(strlen(placeholder2) + 1, sizeof(char));
+				while(placeholder2[j])
+				{
+					leftover[j] = placeholder2[j];
+					j++;
+				}
+				j = 0;
+				//leftover = leftover + m + 1;
+				free(buffer);
+				return (placeholder1);
+			}
+			else
+			{
+				//leftover = leftover + m + 1;
+				free(leftover);
+				//leftover = ft_calloc(1, sizeof(char));
+				leftover = NULL;
+			}
+			//}
+			if (leftover != NULL && leftover[0] == '\0')
+				leftover = NULL;
+		}
+		if (leftover != NULL && leftover[0] == '\0')
+			leftover = NULL;
+	}
+	/*
+	if (leftover != NULL) 
+	{
+		if (leftover[0] != '\0') 
+		{
+			free(placeholder1);
+			if (leftover[m] == '\n')
+			{
+				placeholder1 = ft_calloc(2, sizeof(char));
+				placeholder1[count] = '\n';
+				
+				//the problem with incrementing leftover's pointer is that it creates a memory leak because
+				//the characters moved past are "lost"
+
 				//leftover++;
 				//the lines below are a potential solution to my leftover issue
 				free(placeholder2);
@@ -147,6 +233,7 @@ char	*get_next_line(int fd)
 		if (leftover != NULL && leftover[0] == '\0')
 			leftover = NULL;
 	}
+	*/
 	/*
 	The entire bottom half this point on is meant to place buffers inside a memory space
 	& stack them until a new line or null terminating character is found
