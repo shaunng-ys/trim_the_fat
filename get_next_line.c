@@ -133,6 +133,7 @@ char	*get_next_line(int fd)
 				j = 0;
 				//leftover = leftover + m + 1;
 				free(buffer);
+				free(placeholder2);
 				return (placeholder1);
 			}
 			else
@@ -144,10 +145,16 @@ char	*get_next_line(int fd)
 			}
 			//}
 			if (leftover != NULL && leftover[0] == '\0')
+			{	
+				free(leftover);
 				leftover = NULL;
+			}
 		}
 		if (leftover != NULL && leftover[0] == '\0')
+		{
+			free(leftover);
 			leftover = NULL;
+		}
 	}
 	/*
 	if (leftover != NULL) 
