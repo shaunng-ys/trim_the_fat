@@ -209,7 +209,15 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 			break;
 			//return (NULL);
 		}
+		else if (readvalue < 0)// && strlen(placeholder1) == 0)
+		{
+			free(buffer);
+			free(placeholder1);
+			free(placeholder2);
+			return (NULL);
+		}
 		free(placeholder2);
+		//bytes lost here
 		placeholder2 = ft_calloc(strlen(placeholder1) + 1, 1);
 		if (strlen(placeholder1) > 0)
 		{
@@ -221,6 +229,7 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 			pl_index = 0;
 		}
 		free(placeholder1);
+		//bytes lost here
 		placeholder1 = ft_calloc(strlen(placeholder2) + BUFFER_SIZE + 1, 1);
 		if (strlen(placeholder2) > 0)
 		{
@@ -267,18 +276,44 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 			free(buffer);
 			return (placeholder2);
 	    }
+		// 	if (buffer != NULL)
+		// 	{
+		// 		if (strlen(buffer) == 0)
+		// 		{
+		// 			free(buffer);
+		// 		}
+		// 	}
+		// if (placeholder1 != NULL)
+		// {
+		// 	if (strlen(placeholder1) == 0)
+		// 	{
+		// 		free(placeholder1);
+		// 	}
+		// }
+		// if (placeholder2 != NULL)
+		// {
+		// 	if (strlen(placeholder2) == 0)
+		// 	{
+		// 		free(placeholder2);
+		// 	}
+		// }
+		// }
 	}
-	/*
-	if (buffer != NULL)
-		if (strlen(buffer) == 0)
-			free(buffer);
-	if (placeholder1 != NULL)
-		if (strlen(placeholder1) == 0)
-			free(placeholder1);
-	if (placeholder2 != NULL)
-		if (strlen(placeholder2) == 0)
-			free(placeholder2);
-	*/
+	// if (buffer != NULL)
+	// {
+	// 	if (strlen(buffer) == 0)
+	// 		free(buffer);
+	// }
+	// if (placeholder1 != NULL)
+	// {
+	// 	if (strlen(placeholder1) == 0)
+	// 		free(placeholder1);
+	// }
+	// if (placeholder2 != NULL)
+	// {
+	// 	if (strlen(placeholder2) == 0)
+	// 		free(placeholder2);
+	// }
 	return (NULL);
 }
 
@@ -311,6 +346,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	//bytes lost here
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	placeholder1 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	placeholder2 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
@@ -393,7 +429,37 @@ char	*get_next_line(int fd)
 		return (placeholder);
 	else if (placeholder == NULL)
 	{
+		// if (buffer != NULL)
+		// {
+		// 	if (strlen(buffer) == 0)
+		// 		free(buffer);
+		// }
+		// if (placeholder1 != NULL)
+		// {
+		// 	if (strlen(placeholder1) == 0)
+		// 		free(placeholder1);
+		// }
+		// if (placeholder2 != NULL)
+		// {
+		// 	if (strlen(placeholder2) == 0)
+		// 		free(placeholder2);
+		// }
 		free(leftover);
+		// if (buffer != NULL)
+		// {
+		// 	if (strlen(buffer) == 0)
+		// 			free(buffer);
+		// }
+		// if (placeholder1 != NULL)
+		// {
+		// 	if (strlen(placeholder1) == 0)
+		// 		free(placeholder1);
+		// }
+		// if (placeholder2 != NULL)
+		// {
+		// 	if (strlen(placeholder2) == 0)
+		// 		free(placeholder2);
+		// }
 		return (NULL);
 	}
 		// else if (strlen(placeholder2) > 0)
