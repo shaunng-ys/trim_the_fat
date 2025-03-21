@@ -15,7 +15,7 @@
 //# define BUFFER_SIZE
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
+# define BUFFER_SIZE 42
 # endif
 
 # include <unistd.h>
@@ -28,5 +28,6 @@
 char	*get_next_line(int fd);
 void	*ft_calloc(size_t count, size_t size);
 int	buffer_check(char *buffer, size_t index);
-
+// char *find_nl(int readvalue, int fd, char *buffer,char *placeholder1, char *placeholder2, char *leftover);
+char *getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *placeholder2, char **leftover);
 #endif
