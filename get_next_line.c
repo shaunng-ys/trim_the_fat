@@ -30,6 +30,71 @@
 // 	return (0);
 // }
 
+char *leftover_checker(char **leftover, char *placeholder1, char *placeholder2, char *buffer)
+{
+	size_t	m;
+	size_t	count;
+	size_t	i;
+	size_t	j;
+
+	m = 0;
+	count = 0;
+	i = 0;
+	j = 0;
+	if (*leftover != NULL) 
+	{
+		if (*leftover[0] != '\0') 
+		{
+			free(placeholder1);
+			while (*leftover[m] != '\n' && *leftover[m])
+				m++;
+			placeholder1 = ft_calloc(m + 2, sizeof(char));
+			while (count < m)
+			{
+				placeholder1[count] = *leftover[count];
+				count++;
+			}
+			if (*leftover[m] == '\n')
+			{
+				placeholder1[count] = '\n';
+				free(placeholder2);
+				placeholder2 = ft_calloc(strlen(*leftover) - m + 1, sizeof(char));
+				while(*leftover[++m])
+					placeholder2[i++] = *leftover[m];
+				i = 0;
+				free(*leftover);
+				*leftover = ft_calloc(strlen(placeholder2) + 1, sizeof(char));
+				while(placeholder2[j])
+				{
+					*leftover[j] = placeholder2[j];
+					j++;
+				}
+				j = 0;
+				free(buffer);
+				free(placeholder2);
+				return (placeholder1);
+			}
+			else
+			{
+				free(*leftover);
+				*leftover = NULL;
+			}
+			if (*leftover != NULL && *leftover[0] == '\0')
+			{	
+				free(*leftover);
+				*leftover = NULL;
+			}
+		}
+		if (*leftover != NULL && *leftover[0] == '\0')
+		{
+			free(*leftover);
+			*leftover = NULL;
+		}
+	}
+	//this was added in (as an attempt to split out this functionality)
+	return (NULL);
+}
+
 /*
 problem with using the static character pointer as a parameter in the function is that because it is a static character pointer,
 the value does not change in any other scope/ function meaning that no matter how much I change it in another function that the 
@@ -164,56 +229,59 @@ char	*get_next_line(int fd)
 	placeholder1 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	placeholder2 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 
-	if (leftover != NULL) 
-	{
-		if (leftover[0] != '\0') 
-		{
-			free(placeholder1);
-			while (leftover[m] != '\n' && leftover[m])
-				m++;
-			placeholder1 = ft_calloc(m + 2, sizeof(char));
-			while (count < m)
-			{
-				placeholder1[count] = leftover[count];
-				count++;
-			}
-			if (leftover[m] == '\n')
-			{
-				placeholder1[count] = '\n';
-				free(placeholder2);
-				placeholder2 = ft_calloc(strlen(leftover) - m + 1, sizeof(char));
-				while(leftover[++m])
-					placeholder2[i++] = leftover[m];
-				i = 0;
-				free(leftover);
-				leftover = ft_calloc(strlen(placeholder2) + 1, sizeof(char));
-				while(placeholder2[j])
-				{
-					leftover[j] = placeholder2[j];
-					j++;
-				}
-				j = 0;
-				free(buffer);
-				free(placeholder2);
-				return (placeholder1);
-			}
-			else
-			{
-				free(leftover);
-				leftover = NULL;
-			}
-			if (leftover != NULL && leftover[0] == '\0')
-			{	
-				free(leftover);
-				leftover = NULL;
-			}
-		}
-		if (leftover != NULL && leftover[0] == '\0')
-		{
-			free(leftover);
-			leftover = NULL;
-		}
-	}
+	// if (leftover != NULL) 
+	// {
+	// 	if (leftover[0] != '\0') 
+	// 	{
+	// 		free(placeholder1);
+	// 		while (leftover[m] != '\n' && leftover[m])
+	// 			m++;
+	// 		placeholder1 = ft_calloc(m + 2, sizeof(char));
+	// 		while (count < m)
+	// 		{
+	// 			placeholder1[count] = leftover[count];
+	// 			count++;
+	// 		}
+	// 		if (leftover[m] == '\n')
+	// 		{
+	// 			placeholder1[count] = '\n';
+	// 			free(placeholder2);
+	// 			placeholder2 = ft_calloc(strlen(leftover) - m + 1, sizeof(char));
+	// 			while(leftover[++m])
+	// 				placeholder2[i++] = leftover[m];
+	// 			i = 0;
+	// 			free(leftover);
+	// 			leftover = ft_calloc(strlen(placeholder2) + 1, sizeof(char));
+	// 			while(placeholder2[j])
+	// 			{
+	// 				leftover[j] = placeholder2[j];
+	// 				j++;
+	// 			}
+	// 			j = 0;
+	// 			free(buffer);
+	// 			free(placeholder2);
+	// 			return (placeholder1);
+	// 		}
+	// 		else
+	// 		{
+	// 			free(leftover);
+	// 			leftover = NULL;
+	// 		}
+	// 		if (leftover != NULL && leftover[0] == '\0')
+	// 		{	
+	// 			free(leftover);
+	// 			leftover = NULL;
+	// 		}
+	// 	}
+	// 	if (leftover != NULL && leftover[0] == '\0')
+	// 	{
+	// 		free(leftover);
+	// 		leftover = NULL;
+	// 	}
+	// }
+	
+	//Not sure if I'm allowed the output for a function is stored somewhere temporary (by the system)
+	placeholder1 = leftover_checker(&leftover, placeholder1, placeholder2, buffer);
 	i = 0;
 	j = 0;
 	placeholder = getme_a_nl(readvalue, fd, buffer, placeholder1, placeholder2, &leftover);
