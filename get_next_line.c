@@ -459,11 +459,11 @@ char	*get_next_line(int fd)
 	
 	//Not sure if I'm allowed the output for a function is stored somewhere temporary (by the system)
 	ohana = leftover_checker(&leftover, &placeholder1, &placeholder2, &buffer);
-	printf("This is ohana: %s\n", ohana);
+	//printf("This is ohana: %s\n", ohana);
 	if (ohana != NULL && strlen(ohana) > 0)
 	{
 		//free(placeholder1);
-		printf("This is what ohana is pointing to: %s\n", ohana);
+		//printf("This is what ohana is pointing to: %s\n", ohana);
 		placeholder1 = ohana; //ft_calloc(BUFFER_SIZE + strlen(ohana) + 1, sizeof(char));
 		//while (ohana[i])
 		//{
