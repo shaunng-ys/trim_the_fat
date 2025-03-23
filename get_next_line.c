@@ -80,11 +80,11 @@ char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2
 				*leftover = NULL;
 			}
 			//wonder if the if statement below is necessary (i.e. might already be handled by the else statement above)
-			if (*leftover != NULL && (*leftover)[0] == '\0')
-			{	
-				free(*leftover);
-				*leftover = NULL;
-			}
+			// if (*leftover != NULL && (*leftover)[0] == '\0')
+			// {	
+			// 	free(*leftover);
+			// 	*leftover = NULL;
+			// }
 		}
 		if (*leftover != NULL && (*leftover)[0] == '\0')
 		{
@@ -94,7 +94,42 @@ char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2
 	}
 	return (NULL);
 }
-
+//Attempt to split out the part where the string formed of stacked buffers is checked for a newline and where something more than the newline is taken in it is passed to a static character pointer
+char *new_line_split(char **leftover, char *buffer, char *placeholder1, char *placeholder2)
+{
+	size_t	i;
+	size_t	l;
+	size_t	k;
+	
+	
+	if (buffer_check(buffer, BUFFER_SIZE) > 0)
+	{
+		free(placeholder2);
+		placeholder2 = ft_calloc(strlen(placeholder1) + 1, 1);
+		while (placeholder1[i] != '\n')
+		{
+			placeholder2[i] = placeholder1[i];
+			i++;
+		}
+		placeholder2[i] = '\n';
+		l = ++i;
+		if (placeholder1[l])
+		{
+			while (placeholder1[l])
+			{
+				k++;
+				l++;
+			}
+			*leftover = ft_calloc(k + 2, sizeof(char));
+			k = 0;
+			while (placeholder1[i])
+				(*leftover)[k++] = placeholder1[i++];
+		}
+		free(placeholder1);
+		free(buffer);
+		return (placeholder2);
+	}
+}
 /*
 problem with using the static character pointer as a parameter in the function is that because it is a static character pointer,
 the value does not change in any other scope/ function meaning that no matter how much I change it in another function that the 
