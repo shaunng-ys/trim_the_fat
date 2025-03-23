@@ -79,12 +79,6 @@ char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2
 				free(*leftover);
 				*leftover = NULL;
 			}
-			//wonder if the if statement below is necessary (i.e. might already be handled by the else statement above)
-			// if (*leftover != NULL && (*leftover)[0] == '\0')
-			// {	
-			// 	free(*leftover);
-			// 	*leftover = NULL;
-			// }
 		}
 		if (*leftover != NULL && (*leftover)[0] == '\0')
 		{
@@ -138,15 +132,11 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 {
 	size_t	i;
 	size_t	j;
-	// size_t	k;
-	// size_t	l;
 	size_t	pl_index;
 	size_t	n;
 
 	i = 0;
 	j = 0;
-	// k = 0;
-	// l = 0;
 	pl_index = 0;
 	n = 0;
 	while (readvalue > 0)
@@ -209,32 +199,6 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 		i = 0;
 		if (buffer_check(buffer, BUFFER_SIZE) > 0)
 			return (new_line_split(&(*leftover), &buffer, &placeholder1, &placeholder2));
-		// {
-		// 	free(placeholder2);
-		// 	placeholder2 = ft_calloc(strlen(placeholder1) + 1, 1);
-		// 	while (placeholder1[i] != '\n')
-		// 	{
-		// 	 	placeholder2[i] = placeholder1[i];
-		// 		i++;
-		// 	}
-		// 	placeholder2[i] = '\n';
-		// 	l = ++i;
-		// 	if (placeholder1[l])
-		// 	{
-		// 		while (placeholder1[l])
-		// 		{
-		// 			k++;
-		// 			l++;
-		// 		}
-		// 		*leftover = ft_calloc(k + 2, sizeof(char));
-		// 		k = 0;
-		// 		while (placeholder1[i])
-		// 			(*leftover)[k++] = placeholder1[i++];
-		// 	}
-		// 	free(placeholder1);
-		// 	free(buffer);
-		// 	return (placeholder2);
-	    // }
 	}
 	return (NULL);
 }
