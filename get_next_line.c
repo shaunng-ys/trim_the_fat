@@ -32,26 +32,25 @@
 
 char *string_check(char **leftover, char **placeholder1, char **placeholder2, char **buffer)
 {
-	size_t	count;
 	size_t	i;
 	size_t	m;
 
-	count = 0;
 	i = 0;
 	m = 0;
 	while ((*leftover)[m] != '\n' && (*leftover)[m])
 		m++;
 	*placeholder1 = ft_calloc(m + 2, sizeof(char));
-	while (count < m)
+	while (i < m)
 	{
-		(*placeholder1)[count] = (*leftover)[count];
-		count++;
+		(*placeholder1)[i] = (*leftover)[i];
+		i++;
 	}
 	if ((*leftover)[m] == '\n')
 	{
-		(*placeholder1)[count] = '\n';
+		(*placeholder1)[i] = '\n';
 		free(*placeholder2);
 		*placeholder2 = ft_calloc(strlen(*leftover) - m + 1, sizeof(char));
+		i = 0;
 		while ((*leftover)[++m])
 			(*placeholder2)[i++] = (*leftover)[m];
 		free(*leftover);
