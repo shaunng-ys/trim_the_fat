@@ -30,86 +30,59 @@
 // 	return (0);
 // }
 
-// char *string_check(char ***leftover, char ***placeholder1, char ***placeholder2, char ***buffer)
-// {
-// 	size_t	count;
-// 	size_t	i;
-// 	size_t	m;
+char *string_check(char **leftover, char **placeholder1, char **placeholder2, char **buffer)
+{
+	size_t	count;
+	size_t	i;
+	size_t	m;
 
-// 	count = 0;
-// 	i = 0;
-// 	m = 0;
-// 	while ((**leftover)[m] != '\n' && (**leftover)[m])
-// 				m++;
-// 	**placeholder1 = ft_calloc(m + 2, sizeof(char));
-// 	while (count < m)
-// 	{
-// 		(**placeholder1)[count] = (**leftover)[count];
-// 		count++;
-// 	}
-// 	if ((**leftover)[m] == '\n')
-// 	{
-// 		(**placeholder1)[count] = '\n';
-// 		free(**placeholder2);
-// 		**placeholder2 = ft_calloc(strlen(**leftover) - m + 1, sizeof(char));
-// 		while((**leftover)[++m])
-// 			(**placeholder2)[i++] = (**leftover)[m];
-// 		free(**leftover);
-// 		**leftover = ft_calloc(strlen(**placeholder2) + 1, sizeof(char));
-// 		copier((**leftover), (**placeholder2), '\0');
-// 		free(**buffer);
-// 		free(**placeholder2);
-// 		return (**placeholder1);
-// 	}
-// 	else
-// 	{
-// 		free(**leftover);
-// 		**leftover = NULL;
-// 		return (NULL);
-// 	}
-// }
+	count = 0;
+	i = 0;
+	m = 0;
+	while ((*leftover)[m] != '\n' && (*leftover)[m])
+		m++;
+	*placeholder1 = ft_calloc(m + 2, sizeof(char));
+	while (count < m)
+	{
+		(*placeholder1)[count] = (*leftover)[count];
+		count++;
+	}
+	if ((*leftover)[m] == '\n')
+	{
+		(*placeholder1)[count] = '\n';
+		free(*placeholder2);
+		*placeholder2 = ft_calloc(strlen(*leftover) - m + 1, sizeof(char));
+		while ((*leftover)[++m])
+			(*placeholder2)[i++] = (*leftover)[m];
+		free(*leftover);
+		*leftover = ft_calloc(strlen(*placeholder2) + 1, sizeof(char));
+		copier((*leftover), (*placeholder2), '\0');
+		free(*buffer);
+		free(*placeholder2);
+		return (*placeholder1);
+	}
+	else
+	{
+		free(*leftover);
+		*leftover = NULL;
+		return (NULL);
+	}
+}
 
 char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2, char **buffer)
 {
-	size_t	m;
-	size_t	count;
-	size_t	i;
+	char	*result;
 
-	m = 0;
-	count = 0;
-	i = 0;
-	if (*leftover != NULL) 
+	if (*leftover != NULL)
 	{
 		if ((*leftover)[0] != '\0') 
 		{
 			free(*placeholder1);
-			while ((*leftover)[m] != '\n' && (*leftover)[m])
-				m++;
-			*placeholder1 = ft_calloc(m + 2, sizeof(char));
-			while (count < m)
-			{
-				(*placeholder1)[count] = (*leftover)[count];
-				count++;
-			}
-			if ((*leftover)[m] == '\n')
-			{
-				(*placeholder1)[count] = '\n';
-				free(*placeholder2);
-				*placeholder2 = ft_calloc(strlen(*leftover) - m + 1, sizeof(char));
-				while((*leftover)[++m])
-					(*placeholder2)[i++] = (*leftover)[m];
-				free(*leftover);
-				*leftover = ft_calloc(strlen(*placeholder2) + 1, sizeof(char));
-				copier((*leftover), (*placeholder2), '\0');
-				free(*buffer);
-				free(*placeholder2);
-				return (*placeholder1);
-			}
+			result = string_check(&(*leftover), &(*placeholder1), &(*placeholder2), &(*buffer));
+			if (result != NULL && strlen(result) > 0)
+				return (result);
 			else
-			{
-				free(*leftover);
-				*leftover = NULL;
-			}
+				return (NULL);
 		}
 		if (*leftover != NULL && (*leftover)[0] == '\0')
 		{
@@ -125,7 +98,7 @@ char *new_line_split(char **leftover, char **buffer, char **placeholder1, char *
 	size_t	i;
 	size_t	l;
 	size_t	k;
-	
+
 	i = 0;
 	l = 0;
 	k = 0;
@@ -174,7 +147,7 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 			free(placeholder1);
 			free(placeholder2);
 			free(buffer);
-			break;
+			break ;
 		}
 		else if (readvalue < 0)
 		{
@@ -200,15 +173,16 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 	}
 	return (NULL);
 }
+
 char	*get_next_line(int fd)
 {
-	static char *leftover;
-	int	readvalue;
-	char	*buffer;
-	char	*ohana;
-	char	*placeholder;
-	char	*placeholder1;
-	char	*placeholder2;
+	static char	*leftover;
+	int			readvalue;
+	char		*buffer;
+	char		*ohana;
+	char		*placeholder;
+	char		*placeholder1;
+	char		*placeholder2;
 
 	readvalue = 5;
 	if (fd < 0 || BUFFER_SIZE <= 0)
