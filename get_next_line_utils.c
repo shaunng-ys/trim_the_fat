@@ -63,3 +63,35 @@ int	buffer_check(char *buffer, size_t index)
 	}
 	return (0);
 }
+
+// char	*if_else(char **buffer, int *readvalue, int *fd, char **leftover, char **placeholder1, char **placeholder2)
+// {
+// 	if (strlen(*buffer) > 0)
+// 	{
+// 		free(*buffer);
+// 		*buffer = ft_calloc(BUFFER_SIZE + 1, 1);
+// 	}
+// 	*readvalue = read(*fd, *buffer, BUFFER_SIZE);
+// 	if (*readvalue == 0 && strlen(*placeholder1) > 0)
+// 	{
+// 		free(*buffer);
+// 		free(*placeholder2);
+// 		return (*placeholder1);
+// 	}
+// 	else if (*readvalue == 0 && *leftover == NULL)
+// 	{
+// 		free(*placeholder1);
+// 		free(*placeholder2);
+// 		free(*buffer);
+// 		//break ;
+// 		return (NULL);
+// 	}
+// 	else if (*readvalue < 0)
+// 	{
+// 		free(*buffer);
+// 		free(*placeholder1);
+// 		free(*placeholder2);
+// 		return (NULL);
+// 	}
+// 	return (NULL);
+// }

@@ -123,6 +123,7 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 {
 	size_t	i;
 	size_t	n;
+	//char	*ptr;
 
 	i = 0;
 	n = 0;
@@ -154,6 +155,11 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 			free(placeholder2);
 			return (NULL);
 		}
+		//ptr = if_else(&(*buffer), &readvalue, &fd, &(*leftover), &(*placeholder1), &(*placeholder2));
+		// if (ptr != NULL && strlen(ptr) > 0)
+		// 	return (ptr);
+		// else
+		// 	return (NULL);
 		free(placeholder2);
 		placeholder2 = ft_calloc(strlen(placeholder1) + 1, 1);
 		if (strlen(placeholder1) > 0)
