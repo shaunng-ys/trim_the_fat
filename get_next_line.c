@@ -30,17 +30,54 @@
 // 	return (0);
 // }
 
+// char *string_check(char ***leftover, char ***placeholder1, char ***placeholder2, char ***buffer)
+// {
+// 	size_t	count;
+// 	size_t	i;
+// 	size_t	m;
+
+// 	count = 0;
+// 	i = 0;
+// 	m = 0;
+// 	while ((**leftover)[m] != '\n' && (**leftover)[m])
+// 				m++;
+// 	**placeholder1 = ft_calloc(m + 2, sizeof(char));
+// 	while (count < m)
+// 	{
+// 		(**placeholder1)[count] = (**leftover)[count];
+// 		count++;
+// 	}
+// 	if ((**leftover)[m] == '\n')
+// 	{
+// 		(**placeholder1)[count] = '\n';
+// 		free(**placeholder2);
+// 		**placeholder2 = ft_calloc(strlen(**leftover) - m + 1, sizeof(char));
+// 		while((**leftover)[++m])
+// 			(**placeholder2)[i++] = (**leftover)[m];
+// 		free(**leftover);
+// 		**leftover = ft_calloc(strlen(**placeholder2) + 1, sizeof(char));
+// 		copier((**leftover), (**placeholder2), '\0');
+// 		free(**buffer);
+// 		free(**placeholder2);
+// 		return (**placeholder1);
+// 	}
+// 	else
+// 	{
+// 		free(**leftover);
+// 		**leftover = NULL;
+// 		return (NULL);
+// 	}
+// }
+
 char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2, char **buffer)
 {
 	size_t	m;
 	size_t	count;
 	size_t	i;
-	size_t	j;
 
 	m = 0;
 	count = 0;
 	i = 0;
-	j = 0;
 	if (*leftover != NULL) 
 	{
 		if ((*leftover)[0] != '\0') 
@@ -63,12 +100,7 @@ char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2
 					(*placeholder2)[i++] = (*leftover)[m];
 				free(*leftover);
 				*leftover = ft_calloc(strlen(*placeholder2) + 1, sizeof(char));
-				while((*placeholder2)[j])
-				{
-					(*leftover)[j] = (*placeholder2)[j];
-					j++;
-				}
-				j = 0;
+				copier((*leftover), (*placeholder2), '\0');
 				free(*buffer);
 				free(*placeholder2);
 				return (*placeholder1);
@@ -99,11 +131,7 @@ char *new_line_split(char **leftover, char **buffer, char **placeholder1, char *
 	k = 0;
 	free(*placeholder2);
 	*placeholder2 = ft_calloc(strlen(*placeholder1) + 1, 1);
-	while ((*placeholder1)[i] != '\n')
-	{
-		(*placeholder2)[i] = (*placeholder1)[i];
-		i++;
-	}
+	i = copier((*placeholder2), (*placeholder1), '\n');
 	(*placeholder2)[i] = '\n';
 	l = ++i;
 	if ((*placeholder1)[l])
@@ -123,13 +151,9 @@ char *new_line_split(char **leftover, char **buffer, char **placeholder1, char *
 char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *placeholder2, char **leftover)
 {
 	size_t	i;
-	size_t	j;
-	size_t	pl_index;
 	size_t	n;
 
 	i = 0;
-	j = 0;
-	pl_index = 0;
 	n = 0;
 	while (readvalue > 0)
 	{
@@ -162,21 +186,11 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 		free(placeholder2);
 		placeholder2 = ft_calloc(strlen(placeholder1) + 1, 1);
 		if (strlen(placeholder1) > 0)
-			while (placeholder1[pl_index])
-			{
-				placeholder2[pl_index] = placeholder1[pl_index];
-				pl_index++;
-			}
-		pl_index = 0;
+			copier(placeholder2, placeholder1, '\0');
 		free(placeholder1);
 		placeholder1 = ft_calloc(strlen(placeholder2) + BUFFER_SIZE + 1, 1);
 		if (strlen(placeholder2) > 0)
-			while (placeholder2[j])
-			{
-				placeholder1[j] = placeholder2[j];
-				j++;
-			}
-		j = 0;
+			copier(placeholder1, placeholder2, '\0');
 		n = strlen(placeholder2);
 		while ((buffer)[i])
 			placeholder1[n++] = (buffer)[i++];
@@ -197,7 +211,6 @@ char	*get_next_line(int fd)
 	char	*placeholder2;
 
 	readvalue = 5;
-
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));

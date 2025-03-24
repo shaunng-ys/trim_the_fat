@@ -31,37 +31,35 @@ void	*ft_calloc(size_t count, size_t size)
 	p2s = malloc(count * size);
 	if (p2s == 0)
 		return (NULL);
-	while (n)
-	{
+	while (n--)
 		((char *)p2s)[i++] = '\0';
-		n--;
-	}
 	return (p2s);
 }
 
+size_t	copier(char	*dest, char *src, char limiter)
+{
+	size_t	i;
+
+	i = 0;
+	while (src[i] != limiter)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	return (i);
+}
 //while loop to check buffer for nl or null terminating character, and creating line to be returned
 int	buffer_check(char *buffer, size_t index)
 {
 	size_t	i;
-	//size_t	n;
 
 	i = 0;
-	//n = 0;
 	while (index--)
 	{
 		if (((char *)buffer)[i] == '\n')
-		{	
-			/*
-			fp = ft_calloc(n + 2, sizeof(char));
-			read(fd, fp, n);
-			*/
-			return (i + 2); //i + 1 maybe to indicate how many more to calloc for line that is to be returned
-		}
+			return (i + 2);
 		else
-		{
-			//n++;
 			i++;
-		}
 	}
 	return (0);
 }
