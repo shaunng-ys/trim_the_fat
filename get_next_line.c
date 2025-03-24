@@ -61,12 +61,7 @@ char *string_check(char **leftover, char **placeholder1, char **placeholder2, ch
 		free(*placeholder2);
 		return (*placeholder1);
 	}
-	else
-	{
-		free(*leftover);
-		*leftover = NULL;
-		return (NULL);
-	}
+	return (NULL);
 }
 
 char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2, char **buffer)
@@ -82,7 +77,11 @@ char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2
 			if (result != NULL && strlen(result) > 0)
 				return (result);
 			else
+			{
+				free(*leftover);
+				*leftover = NULL;
 				return (NULL);
+			}
 		}
 		if (*leftover != NULL && (*leftover)[0] == '\0')
 		{
