@@ -61,7 +61,6 @@ char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2
 				*placeholder2 = ft_calloc(strlen(*leftover) - m + 1, sizeof(char));
 				while((*leftover)[++m])
 					(*placeholder2)[i++] = (*leftover)[m];
-				i = 0;
 				free(*leftover);
 				*leftover = ft_calloc(strlen(*placeholder2) + 1, sizeof(char));
 				while((*placeholder2)[j])
@@ -109,11 +108,8 @@ char *new_line_split(char **leftover, char **buffer, char **placeholder1, char *
 	l = ++i;
 	if ((*placeholder1)[l])
 	{
-		while ((*placeholder1)[l])
-		{
+		while ((*placeholder1)[l++])
 			k++;
-			l++;
-		}
 		*leftover = ft_calloc(k + 2, sizeof(char));
 		k = 0;
 		while ((*placeholder1)[i])
@@ -123,11 +119,7 @@ char *new_line_split(char **leftover, char **buffer, char **placeholder1, char *
 	free(*buffer);
 	return (*placeholder2);
 }
-/*
-problem with using the static character pointer as a parameter in the function is that because it is a static character pointer,
-the value does not change in any other scope/ function meaning that no matter how much I change it in another function that the 
-static character pointer is being passed into, the value goes back to it's original value because of it's static nature
-*/
+
 char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *placeholder2, char **leftover)
 {
 	size_t	i;
@@ -170,32 +162,24 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 		free(placeholder2);
 		placeholder2 = ft_calloc(strlen(placeholder1) + 1, 1);
 		if (strlen(placeholder1) > 0)
-		{
 			while (placeholder1[pl_index])
 			{
 				placeholder2[pl_index] = placeholder1[pl_index];
 				pl_index++;
 			}
-			pl_index = 0;
-		}
+		pl_index = 0;
 		free(placeholder1);
 		placeholder1 = ft_calloc(strlen(placeholder2) + BUFFER_SIZE + 1, 1);
 		if (strlen(placeholder2) > 0)
-		{
 			while (placeholder2[j])
 			{
 				placeholder1[j] = placeholder2[j];
 				j++;
 			}
-			j = 0;
-		}
+		j = 0;
 		n = strlen(placeholder2);
 		while ((buffer)[i])
-		{	
-			placeholder1[n] = (buffer)[i];
-			n++;
-			i++;
-		}
+			placeholder1[n++] = (buffer)[i++];
 		i = 0;
 		if (buffer_check(buffer, BUFFER_SIZE) > 0)
 			return (new_line_split(&(*leftover), &buffer, &placeholder1, &placeholder2));
