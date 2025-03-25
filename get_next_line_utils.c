@@ -36,6 +36,19 @@ void	*ft_calloc(size_t count, size_t size)
 	return (p2s);
 }
 
+void	ft_bzero(char *s, size_t n)
+{
+	int	i;
+
+	i = 0;
+	while (n)
+	{
+		s[i] = 0;
+		i++;
+		n--;
+	}
+}
+
 size_t	copier(char	*dest, char *src, char limiter)
 {
 	size_t	i;
@@ -64,34 +77,33 @@ int	buffer_check(char *buffer, size_t index)
 	return (0);
 }
 
-// char	*if_else(char **buffer, int *readvalue, int *fd, char **leftover, char **placeholder1, char **placeholder2)
-// {
-// 	if (strlen(*buffer) > 0)
-// 	{
-// 		free(*buffer);
-// 		*buffer = ft_calloc(BUFFER_SIZE + 1, 1);
-// 	}
-// 	*readvalue = read(*fd, *buffer, BUFFER_SIZE);
-// 	if (*readvalue == 0 && strlen(*placeholder1) > 0)
-// 	{
-// 		free(*buffer);
-// 		free(*placeholder2);
-// 		return (*placeholder1);
-// 	}
-// 	else if (*readvalue == 0 && *leftover == NULL)
-// 	{
-// 		free(*placeholder1);
-// 		free(*placeholder2);
-// 		free(*buffer);
-// 		//break ;
-// 		return (NULL);
-// 	}
-// 	else if (*readvalue < 0)
-// 	{
-// 		free(*buffer);
-// 		free(*placeholder1);
-// 		free(*placeholder2);
-// 		return (NULL);
-// 	}
-// 	return (NULL);
-// }
+char	*if_else(char **buffer, int *readvalue_ptr, int *fd_ptr, char ***leftover, char **placeholder1, char **placeholder2)
+{
+	if (strlen(*buffer) > 0)
+	{
+		free(*buffer);
+		*buffer = ft_calloc(BUFFER_SIZE + 1, 1);
+	}
+	*readvalue_ptr = read(*fd_ptr, *buffer, BUFFER_SIZE);
+	if (*readvalue_ptr == 0 && strlen(*placeholder1) > 0)
+	{
+		free(*buffer);
+		free(*placeholder2);
+		return (*placeholder1);
+	}
+	else if (*readvalue_ptr == 0 && **leftover == NULL)
+	{
+		free(*placeholder1);
+		free(*placeholder2);
+		free(*buffer);
+		return (NULL);
+	}
+	else if (*readvalue_ptr < 0)
+	{
+		free(*buffer);
+		free(*placeholder1);
+		free(*placeholder2);
+		return (NULL);
+	}
+	return (NULL);
+}

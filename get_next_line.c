@@ -35,16 +35,13 @@ char *string_check(char **leftover, char **placeholder1, char **placeholder2, ch
 	size_t	i;
 	size_t	m;
 
-	i = 0;
+	i = -1;
 	m = 0;
 	while ((*leftover)[m] != '\n' && (*leftover)[m])
 		m++;
 	*placeholder1 = ft_calloc(m + 2, sizeof(char));
-	while (i < m)
-	{
+	while (++i < m)
 		(*placeholder1)[i] = (*leftover)[i];
-		i++;
-	}
 	if ((*leftover)[m] == '\n')
 	{
 		(*placeholder1)[i] = '\n';
@@ -72,7 +69,7 @@ char *leftover_checker(char **leftover, char **placeholder1, char **placeholder2
 		if ((*leftover)[0] != '\0') 
 		{
 			free(*placeholder1);
-			result = string_check(&(*leftover), &(*placeholder1), &(*placeholder2), &(*buffer));
+			result = string_check(leftover, placeholder1, placeholder2, buffer);
 			if (result != NULL && strlen(result) > 0)
 				return (result);
 			else
@@ -123,43 +120,17 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 {
 	size_t	i;
 	size_t	n;
-	//char	*ptr;
+	char	*ptr;
 
 	i = 0;
 	n = 0;
 	while (readvalue > 0)
 	{
-		if (strlen(buffer) > 0)
-		{
-			free(buffer);
-			buffer = ft_calloc(BUFFER_SIZE + 1, 1);
-		}
-		readvalue = read(fd, buffer, BUFFER_SIZE);
-		if (readvalue == 0 && strlen(placeholder1) > 0)
-		{
-			free(buffer);
-			free(placeholder2);
+		ptr = if_else(&buffer, &readvalue, &fd, &leftover, &placeholder1, &placeholder2);
+		if (ptr != NULL)
 			return (placeholder1);
-		}
-		else if (readvalue == 0 && *leftover == NULL)
-		{
-			free(placeholder1);
-			free(placeholder2);
-			free(buffer);
-			break ;
-		}
-		else if (readvalue < 0)
-		{
-			free(buffer);
-			free(placeholder1);
-			free(placeholder2);
+		else if ((readvalue == 0 && *leftover == NULL) || readvalue < 0)
 			return (NULL);
-		}
-		//ptr = if_else(&(*buffer), &readvalue, &fd, &(*leftover), &(*placeholder1), &(*placeholder2));
-		// if (ptr != NULL && strlen(ptr) > 0)
-		// 	return (ptr);
-		// else
-		// 	return (NULL);
 		free(placeholder2);
 		placeholder2 = ft_calloc(strlen(placeholder1) + 1, 1);
 		if (strlen(placeholder1) > 0)
@@ -191,9 +162,18 @@ char	*get_next_line(int fd)
 	readvalue = 5;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	placeholder1 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	placeholder2 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	// buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	// placeholder1 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	// placeholder2 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = malloc(BUFFER_SIZE + 1);
+	placeholder1 = malloc(BUFFER_SIZE + 1);
+	placeholder2 = malloc(BUFFER_SIZE + 1);
+	((char *)buffer)[0] = '\0';
+	((char *)placeholder1)[0] = '\0';
+	((char *)placeholder2)[0] = '\0';
+	((char *)buffer)[BUFFER_SIZE] = '\0';
+	((char *)placeholder1)[BUFFER_SIZE] = '\0';
+	((char *)placeholder2)[BUFFER_SIZE] = '\0';
 	ohana = leftover_checker(&leftover, &placeholder1, &placeholder2, &buffer);
 	if (ohana != NULL && strlen(ohana) > 0)
 	{
