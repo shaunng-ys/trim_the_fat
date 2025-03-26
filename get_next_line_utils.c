@@ -74,30 +74,7 @@ int	buffer_check(char *buffer, size_t index)
 	return (0);
 }
 
-// char	*if_else(int *readvalue_ptr, int *fd_ptr, char ***leftover, t_gnl *a)//char **placeholder1, char **placeholder2, char **buffer, )
-// {
-// 	size_t	buffer_size;
-// 	size_t	i;
-
-// 	buffer_size = BUFFER_SIZE + 1;
-// 	i = 0;
-// 	if (ft_strlen(*a->buffer) > 0)
-// 	{
-// 		free(*buffer);
-// 		*buffer = ft_calloc(BUFFER_SIZE + 1, 1);
-// 	}
-// 	else
-// 		while (buffer_size--)
-// 			(*buffer)[i++] = '\0';
-// 	*readvalue_ptr = read(*fd_ptr, *buffer, BUFFER_SIZE);
-// 	if (*readvalue_ptr == 0 && ft_strlen(*placeholder1) > 0)
-// 		return (free(*buffer), free(*placeholder2), *placeholder1);
-// 	else if ((*readvalue_ptr == 0 && **leftover == NULL) || *readvalue_ptr < 0)
-// 		return (free(*placeholder1), free(*placeholder2), free(*buffer), NULL);
-// 	return (NULL);
-// }
-
-char	*if_else(int *readvalue_ptr, int *fd_ptr, char ***leftover, t_gnl *a)//char **placeholder1, char **placeholder2, char **buffer, )
+char	*if_else(int *rv_ptr, int *fd_ptr, char ***leftover, t_gnl *a)
 {
 	size_t	buffer_size;
 	size_t	i;
@@ -112,10 +89,10 @@ char	*if_else(int *readvalue_ptr, int *fd_ptr, char ***leftover, t_gnl *a)//char
 	else
 		while (buffer_size--)
 			(a->buffer)[i++] = '\0';
-	*readvalue_ptr = read(*fd_ptr, a->buffer, BUFFER_SIZE);
-	if (*readvalue_ptr == 0 && ft_strlen(a->placeholder1) > 0)
-		return (free(a->buffer), free(a->placeholder2), a->placeholder1);
-	else if ((*readvalue_ptr == 0 && **leftover == NULL) || *readvalue_ptr < 0)
-		return (free(a->placeholder1), free(a->placeholder2), free(a->buffer), NULL);
+	*rv_ptr = read(*fd_ptr, a->buffer, BUFFER_SIZE);
+	if (*rv_ptr == 0 && ft_strlen(a->ph1) > 0)
+		return (free(a->buffer), free(a->ph2), a->ph1);
+	else if ((*rv_ptr == 0 && **leftover == NULL) || *rv_ptr < 0)
+		return (free(a->ph1), free(a->ph2), free(a->buffer), NULL);
 	return (NULL);
 }

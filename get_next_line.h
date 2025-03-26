@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+#  define BUFFER_SIZE 42
 # endif
 
 # include <unistd.h>
@@ -24,15 +24,15 @@
 # include <string.h>
 
 typedef struct s_gnl{
-	int			readvalue;
+	int			rv;
 	char		*buffer;
 	char		*ohana;
-	char		*placeholder;
-	char		*placeholder1;
-	char		*placeholder2;
-	size_t	i;
-	size_t	n;
-	char	*ptr;
+	char		*ph;
+	char		*ph1;
+	char		*ph2;
+	size_t		i;
+	size_t		n;
+	char		*ptr;
 }	t_gnl;
 
 char	*get_next_line(int fd);
@@ -40,7 +40,7 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlen(char *s);
 size_t	copier(char	*dest, char *src, char limiter);
 int		buffer_check(char *buffer, size_t index);
-char	*new_line_split(char **leftover, char **buffer, char **placeholder1, char **placeholder2);
-char	*if_else(int *readvalue_ptr, int *fd_ptr, char ***leftover, t_gnl *a);//char **placeholder1, char **placeholder2, char **buffer, );
-char	*getme_a_nl(int readvalue, int fd, char **leftover, t_gnl *a);//char *buffer, char *placeholder1, char *placeholder2, );
+char	*nl_split(char **leftover, char **buffer, char **ph1, char **ph2);
+char	*if_else(int *rv_ptr, int *fd_ptr, char ***leftover, t_gnl *a);
+char	*getme_a_nl(int rv, int fd, char **leftover, t_gnl *a);
 #endif
