@@ -12,7 +12,6 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-//# define BUFFER_SIZE
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
@@ -21,7 +20,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <stdio.h> //Don't include this! Just for testing purposes
 # include <limits.h>
 # include <string.h>
 
@@ -31,6 +29,5 @@ size_t	copier(char	*dest, char *src, char limiter);
 int	buffer_check(char *buffer, size_t index);
 char *new_line_split(char **leftover, char **buffer, char **placeholder1, char **placeholder2);
 char	*if_else(char **buffer, int *readvalue_ptr, int *fd_ptr, char ***leftover, char **placeholder1, char **placeholder2);
-//char *string_check(char ***leftover, char ***placeholder1, char ***placeholder2, char ***buffer);
 char *getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *placeholder2, char **leftover);
 #endif

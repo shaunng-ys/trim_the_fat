@@ -162,9 +162,6 @@ char	*get_next_line(int fd)
 	readvalue = 5;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	// buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	// placeholder1 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	// placeholder2 = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	buffer = malloc(BUFFER_SIZE + 1);
 	placeholder1 = malloc(BUFFER_SIZE + 1);
 	placeholder2 = malloc(BUFFER_SIZE + 1);
