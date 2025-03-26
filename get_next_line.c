@@ -136,14 +136,14 @@ char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *
 		if (strlen(placeholder1) > 0)
 			copier(placeholder2, placeholder1, '\0');
 		free(placeholder1);
-		placeholder1 = ft_calloc(strlen(placeholder2) + BUFFER_SIZE + 1, 1);
+		placeholder1 = ft_calloc(strlen(placeholder2) + strlen(buffer) + 1, 1);
 		if (strlen(placeholder2) > 0)
 			copier(placeholder1, placeholder2, '\0');
 		n = strlen(placeholder2);
 		while ((buffer)[i])
 			placeholder1[n++] = (buffer)[i++];
 		i = 0;
-		if (buffer_check(buffer, BUFFER_SIZE) > 0)
+		if (buffer_check(buffer, strlen(buffer)) > 0)
 			return (new_line_split(&(*leftover), &buffer, &placeholder1, &placeholder2));
 	}
 	return (NULL);
