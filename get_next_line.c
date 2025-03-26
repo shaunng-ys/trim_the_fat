@@ -12,7 +12,6 @@
 
 #include "get_next_line.h"
 
-
 // int	main(void)
 // {
 // 	size_t	n;
@@ -30,7 +29,7 @@
 // 	return (0);
 // }
 
-char *string_check(char **leftover, t_gnl *a)
+char	*string_check(char **leftover, t_gnl *a)
 {
 	size_t	i;
 	size_t	m;
@@ -58,7 +57,7 @@ char *string_check(char **leftover, t_gnl *a)
 	return (NULL);
 }
 
-char *leftover_checker(char **leftover, t_gnl *a)
+char	*leftover_checker(char **leftover, t_gnl *a)
 {
 	char	*result;
 
@@ -86,7 +85,7 @@ char *leftover_checker(char **leftover, t_gnl *a)
 	return (NULL);
 }
 
-char *nl_split(char **leftover, char **buffer, char **ph1, char **ph2)
+char	*nl_split(char **leftover, char **buffer, char **ph1, char **ph2)
 {
 	size_t	i;
 	size_t	l;
@@ -114,7 +113,7 @@ char *nl_split(char **leftover, char **buffer, char **ph1, char **ph2)
 	return (*ph2);
 }
 
-char	*getme_a_nl(int rv, int fd,  char **leftover, t_gnl *a)
+char	*getme_a_nl(int rv, int fd, char **leftover, t_gnl *a)
 {
 	a->i = 0;
 	a->n = 0;
@@ -146,8 +145,8 @@ char	*getme_a_nl(int rv, int fd,  char **leftover, t_gnl *a)
 char	*get_next_line(int fd)
 {
 	static char	*leftover;
+	t_gnl		a;
 
-	t_gnl a;
 	a.rv = 5;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
