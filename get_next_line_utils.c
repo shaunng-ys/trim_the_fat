@@ -84,6 +84,8 @@ char	*if_else(char **buffer, int *readvalue_ptr, int *fd_ptr, char ***leftover, 
 		free(*buffer);
 		*buffer = ft_calloc(BUFFER_SIZE + 1, 1);
 	}
+	else
+		ft_bzero(*buffer, BUFFER_SIZE);
 	*readvalue_ptr = read(*fd_ptr, *buffer, BUFFER_SIZE);
 	if (*readvalue_ptr == 0 && strlen(*placeholder1) > 0)
 	{
