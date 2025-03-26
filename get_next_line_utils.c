@@ -36,17 +36,14 @@ void	*ft_calloc(size_t count, size_t size)
 	return (p2s);
 }
 
-void	ft_bzero(char *s, size_t n)
+size_t	ft_strlen(char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (n)
-	{
-		s[i] = 0;
+	while (s[i])
 		i++;
-		n--;
-	}
+	return (i);
 }
 
 size_t	copier(char	*dest, char *src, char limiter)
@@ -77,30 +74,48 @@ int	buffer_check(char *buffer, size_t index)
 	return (0);
 }
 
-char	*if_else(char **buffer, int *readvalue_ptr, int *fd_ptr, char ***leftover, char **placeholder1, char **placeholder2)
+// char	*if_else(int *readvalue_ptr, int *fd_ptr, char ***leftover, t_gnl *a)//char **placeholder1, char **placeholder2, char **buffer, )
+// {
+// 	size_t	buffer_size;
+// 	size_t	i;
+
+// 	buffer_size = BUFFER_SIZE + 1;
+// 	i = 0;
+// 	if (ft_strlen(*a->buffer) > 0)
+// 	{
+// 		free(*buffer);
+// 		*buffer = ft_calloc(BUFFER_SIZE + 1, 1);
+// 	}
+// 	else
+// 		while (buffer_size--)
+// 			(*buffer)[i++] = '\0';
+// 	*readvalue_ptr = read(*fd_ptr, *buffer, BUFFER_SIZE);
+// 	if (*readvalue_ptr == 0 && ft_strlen(*placeholder1) > 0)
+// 		return (free(*buffer), free(*placeholder2), *placeholder1);
+// 	else if ((*readvalue_ptr == 0 && **leftover == NULL) || *readvalue_ptr < 0)
+// 		return (free(*placeholder1), free(*placeholder2), free(*buffer), NULL);
+// 	return (NULL);
+// }
+
+char	*if_else(int *readvalue_ptr, int *fd_ptr, char ***leftover, t_gnl *a)//char **placeholder1, char **placeholder2, char **buffer, )
 {
-	if (strlen(*buffer) > 0)
+	size_t	buffer_size;
+	size_t	i;
+
+	buffer_size = BUFFER_SIZE + 1;
+	i = 0;
+	if (ft_strlen(a->buffer) > 0)
 	{
-		free(*buffer);
-		*buffer = ft_calloc(BUFFER_SIZE + 1, 1);
+		free(a->buffer);
+		a->buffer = ft_calloc(BUFFER_SIZE + 1, 1);
 	}
 	else
-		ft_bzero(*buffer, BUFFER_SIZE + 1);
-	*readvalue_ptr = read(*fd_ptr, *buffer, BUFFER_SIZE);
-	if (*readvalue_ptr == 0 && strlen(*placeholder1) > 0)
-	{
-		free(*buffer);
-		free(*placeholder2);
-		return (*placeholder1);
-	}
-	else if (*readvalue_ptr == 0 && **leftover == NULL)
-	{
-		free(*placeholder1);
-		free(*placeholder2);
-		free(*buffer);
-		return (NULL);
-	}
-	else if (*readvalue_ptr < 0)
-		return (free(*buffer), free(*placeholder1), free(*placeholder2), NULL);
+		while (buffer_size--)
+			(a->buffer)[i++] = '\0';
+	*readvalue_ptr = read(*fd_ptr, a->buffer, BUFFER_SIZE);
+	if (*readvalue_ptr == 0 && ft_strlen(a->placeholder1) > 0)
+		return (free(a->buffer), free(a->placeholder2), a->placeholder1);
+	else if ((*readvalue_ptr == 0 && **leftover == NULL) || *readvalue_ptr < 0)
+		return (free(a->placeholder1), free(a->placeholder2), free(a->buffer), NULL);
 	return (NULL);
 }

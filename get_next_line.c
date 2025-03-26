@@ -60,7 +60,7 @@
 // 	return (NULL);
 // }
 
-char *string_check(char **leftover, t_gnl *a)//, char **placeholder1, char **placeholder2, char **buffer)
+char *string_check(char **leftover, t_gnl *a)
 {
 	size_t	i;
 	size_t	m;
@@ -76,16 +76,14 @@ char *string_check(char **leftover, t_gnl *a)//, char **placeholder1, char **pla
 	{
 		(a->placeholder1)[i] = '\n';
 		free(a->placeholder2);
-		a->placeholder2 = ft_calloc(strlen(*leftover) - m + 1, sizeof(char));
+		a->placeholder2 = ft_calloc(ft_strlen(*leftover) - m + 1, sizeof(char));
 		i = 0;
 		while ((*leftover)[++m])
 			(a->placeholder2)[i++] = (*leftover)[m];
 		free(*leftover);
-		*leftover = ft_calloc(strlen(a->placeholder2) + 1, sizeof(char));
+		*leftover = ft_calloc(ft_strlen(a->placeholder2) + 1, sizeof(char));
 		copier((*leftover), (a->placeholder2), '\0');
-		free(a->buffer);
-		free(a->placeholder2);
-		return (a->placeholder1);
+		return (free(a->buffer), free(a->placeholder2), a->placeholder1);
 	}
 	return (NULL);
 }
@@ -100,7 +98,7 @@ char *leftover_checker(char **leftover, t_gnl *a)
 		{
 			free(a->placeholder1);
 			result = string_check(leftover, a);
-			if (result != NULL && strlen(result) > 0)
+			if (result != NULL && ft_strlen(result) > 0)
 				return (result);
 			else
 			{
@@ -117,7 +115,7 @@ char *leftover_checker(char **leftover, t_gnl *a)
 	}
 	return (NULL);
 }
-//Attempt to split out the part where the string formed of stacked buffers is checked for a newline and where something more than the newline is taken in it is passed to a static character pointer
+
 char *new_line_split(char **leftover, char **buffer, char **placeholder1, char **placeholder2)
 {
 	size_t	i;
@@ -128,7 +126,7 @@ char *new_line_split(char **leftover, char **buffer, char **placeholder1, char *
 	l = 0;
 	k = 0;
 	free(*placeholder2);
-	*placeholder2 = ft_calloc(strlen(*placeholder1) + 1, 1);
+	*placeholder2 = ft_calloc(ft_strlen(*placeholder1) + 1, 1);
 	i = copier((*placeholder2), (*placeholder1), '\n');
 	(*placeholder2)[i] = '\n';
 	l = ++i;
@@ -146,35 +144,31 @@ char *new_line_split(char **leftover, char **buffer, char **placeholder1, char *
 	return (*placeholder2);
 }
 
-char	*getme_a_nl(int readvalue, int fd, char *buffer, char *placeholder1, char *placeholder2, char **leftover)
+char	*getme_a_nl(int readvalue, int fd,  char **leftover, t_gnl *a)
 {
-	size_t	i;
-	size_t	n;
-	char	*ptr;
-
-	i = 0;
-	n = 0;
+	a->i = 0;
+	a->n = 0;
 	while (readvalue > 0)
 	{
-		ptr = if_else(&buffer, &readvalue, &fd, &leftover, &placeholder1, &placeholder2);
-		if (ptr != NULL)
-			return (placeholder1);
+		a->ptr = if_else(&readvalue, &fd, &leftover, a);
+		if (a->ptr != NULL)
+			return (a->placeholder1);
 		else if ((readvalue == 0 && *leftover == NULL) || readvalue < 0)
 			return (NULL);
-		free(placeholder2);
-		placeholder2 = ft_calloc(strlen(placeholder1) + 1, 1);
-		if (strlen(placeholder1) > 0)
-			copier(placeholder2, placeholder1, '\0');
-		free(placeholder1);
-		placeholder1 = ft_calloc(strlen(placeholder2) + strlen(buffer) + 1, 1);
-		if (strlen(placeholder2) > 0)
-			copier(placeholder1, placeholder2, '\0');
-		n = strlen(placeholder2);
-		while ((buffer)[i])
-			placeholder1[n++] = (buffer)[i++];
-		i = 0;
-		if (buffer_check(buffer, strlen(buffer)) > 0)
-			return (new_line_split(&(*leftover), &buffer, &placeholder1, &placeholder2));
+		free(a->placeholder2);
+		a->placeholder2 = ft_calloc(ft_strlen(a->placeholder1) + 1, 1);
+		if (ft_strlen(a->placeholder1) > 0)
+			copier(a->placeholder2, a->placeholder1, '\0');
+		free(a->placeholder1);
+		a->placeholder1 = ft_calloc(ft_strlen(a->placeholder2) + ft_strlen(a->buffer) + 1, 1);
+		if (ft_strlen(a->placeholder2) > 0)
+			copier(a->placeholder1, a->placeholder2, '\0');
+		a->n = ft_strlen(a->placeholder2);
+		while ((a->buffer)[a->i])
+			a->placeholder1[a->n++] = (a->buffer)[a->i++];
+		a->i = 0;
+		if (buffer_check(a->buffer, ft_strlen(a->buffer)) > 0)
+			return (new_line_split(&(*leftover), &(a->buffer), &(a->placeholder1), &(a->placeholder2)));
 	}
 	return (NULL);
 }
@@ -194,21 +188,15 @@ char	*get_next_line(int fd)
 	((char *)a.placeholder1)[0] = '\0';
 	((char *)a.placeholder2)[0] = '\0';
 	a.ohana = leftover_checker(&leftover, &a);
-	if (a.ohana != NULL && strlen(a.ohana) > 0)
+	if (a.ohana != NULL && ft_strlen(a.ohana) > 0)
 	{
 		a.placeholder1 = a.ohana;
 		return (a.placeholder1);
 	}
-	a.placeholder = getme_a_nl(a.readvalue, fd, a.buffer, a.placeholder1, a.placeholder2, &leftover);
-	if (a.placeholder != NULL && strlen(a.placeholder) > 0)
+	a.placeholder = getme_a_nl(a.readvalue, fd, &leftover, &a);
+	if (a.placeholder != NULL && ft_strlen(a.placeholder) > 0)
 		return (a.placeholder);
 	else if (a.placeholder == NULL)
-	{
-		free(leftover);
-		return (NULL);
-	}
-	free(a.placeholder1);
-	free(a.placeholder2);
-	free(a.buffer);
-	return (NULL);
+		return (free(leftover), NULL);
+	return (free(a.placeholder1), free(a.placeholder2), free(a.buffer), NULL);
 }
