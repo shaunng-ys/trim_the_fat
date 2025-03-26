@@ -61,7 +61,7 @@ size_t	copier(char	*dest, char *src, char limiter)
 	}
 	return (i);
 }
-//while loop to check buffer for nl or null terminating character, and creating line to be returned
+
 int	buffer_check(char *buffer, size_t index)
 {
 	size_t	i;
@@ -101,11 +101,6 @@ char	*if_else(char **buffer, int *readvalue_ptr, int *fd_ptr, char ***leftover, 
 		return (NULL);
 	}
 	else if (*readvalue_ptr < 0)
-	{
-		free(*buffer);
-		free(*placeholder1);
-		free(*placeholder2);
-		return (NULL);
-	}
+		return (free(*buffer), free(*placeholder1), free(*placeholder2), NULL);
 	return (NULL);
 }
